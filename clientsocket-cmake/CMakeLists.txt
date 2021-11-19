@@ -1,6 +1,3 @@
-#cmake file for project association                     #表示注释 
-#author:>---double__song
-#created:>--2011/03/01
 cmake_minimum_required(VERSION 3.1)  #cmake 最低版本要求，低于2.6 构建过程会被终止。 
 project(ClientSocket)  #定义工程名称
 
@@ -15,8 +12,8 @@ endif()
 # SET(CMAKE_BUILE_TYPE DEBUG)                      #指定编译类型
 # SET(CMAKE_C_FLAGS_DEBUG "-g -Wall")          #指定编译器 
       
-#   ADD_SUBDIRECTORY(utility)                              #添加子目录 没有子目录
-#   ADD_SUBDIRECTORY(server)
+#   ADD_SUBDIRECTORY(...)                              #添加子目录 没有子目录
+#   ADD_SUBDIRECTORY(...)
 SET(SOURCE_FILES                                  #设置变量，表示所有的源文件
 clientsocket.cpp
 main.cpp
