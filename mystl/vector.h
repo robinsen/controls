@@ -78,6 +78,8 @@ public:
     void push_back(const T& value);
     void insert(T* ite, const T& value);
     void insert(T* ite, size_t n, const T& value);
+
+    T*   erase(T* ite);
     
 private:
     T*    _start=nullptr;
@@ -138,4 +140,16 @@ void CVector<T>::insert(T* ite, size_t n, const T& value)
         std::fill_n(ite, n, value);    
         _end += n;
     }
+}
+
+template<typename T>
+T* CVector<T>::erase(T* ite)
+{
+    if ((ite+1) != _end)
+    {
+        std::copy(ite+1, end(), ite);
+    }
+    --_end;
+    _alloc.destroy(_end);
+    return ite;
 }

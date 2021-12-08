@@ -64,6 +64,11 @@ int main()
         std::cout<<*begin<<"; ";
     } while (++begin != strv.end());
     std::cout<<std::endl;
+
+    TestTemplate<int, int> test4;
+    TestTemplate<int*, char*> test5;
+    TestTemplate<const int&, const float&> test6;
+
     system("pause");
 
     return 0;
