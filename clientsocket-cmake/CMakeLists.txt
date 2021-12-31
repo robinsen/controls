@@ -16,6 +16,7 @@ endif()
 #   ADD_SUBDIRECTORY(...)
 SET(SOURCE_FILES                                  #设置变量，表示所有的源文件
 clientsocket.cpp
+helloserver.cpp
 main.cpp
 )
 INCLUDE_DIRECTORIES(                          #相关头文件的目录

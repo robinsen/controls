@@ -6,16 +6,20 @@
 
 #endif
 #include <list>
-#include <functional>
 #include <thread>
 #include <memory>
-#include <mutex>
-#include <condition_variable>
+#include <map>
+#include <iostream>
 
-typedef std::function<void(const int&,const std::string&)> ClientSocketCallBack;
-typedef std::function<void(const char*,const int& len)> ClientSocketReciveCallBack;
+typedef struct ClientEntity_t {
+    int socket;
+    int port;
+    std::string ip;
+    std::string recv;
+    std::string write;
+} ClientEntity;
 
-class CClientSocket {
+class CHelloServer {
   enum NetworkState {
     UnknownSate = 0,
     Connected = 1,
@@ -30,23 +34,25 @@ class CClientSocket {
     WaitConnect,
 };
 public:
-  CClientSocket(const ClientSocketCallBack& cb, const ClientSocketReciveCallBack& rcb);
-  ~CClientSocket();
+  CHelloServer();
+  ~CHelloServer();
 
   static bool initSocket();
   static void unInitSocket();
 
   bool start();
+  void startNoSelect();
+  void startSelect();
   void stop();
+
   void setServerAddr(const std::string& ip,unsigned short nPort, std::list<unsigned short>& portList);
 
-  bool sendData(const char* pdata,int len);
+  bool sendData(char* pdata,int len);
 
 private:
-  void threadRun();
   int  createSocket();
   bool setBlock(bool isblock);
-  bool connectToServer(const char *ip, unsigned short port , int sec);
+  void closeClient(const int& socket);
 
 private:
   #ifdef WIN32
@@ -67,10 +73,6 @@ private:
   std::string               m_connectIp;
   std::list<unsigned short> m_portList;
 
-  std::mutex                   m_mutex;
-  std::condition_variable      m_condition;
-  std::shared_ptr<std::thread> m_thread;
+  std::map<int, ClientEntity*> m_clientMap;
 
-  ClientSocketCallBack         m_connectCb;
-  ClientSocketReciveCallBack   m_reciveCb;
 };

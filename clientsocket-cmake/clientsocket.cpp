@@ -35,6 +35,7 @@ bool CClientSocket::initSocket()
     }
 #else
 #endif
+    return true;
 }
 
 void CClientSocket::unInitSocket()
@@ -42,6 +43,7 @@ void CClientSocket::unInitSocket()
 #ifdef WIN32
     WSACleanup();
 #else
+
 #endif
 }
 
@@ -200,7 +202,7 @@ bool CClientSocket::connectToServer(const char *ip, unsigned short port , int se
 
     #endif
                     {
-                        cout<<"connect= "<<ip<<" : port = "<<port<<"finished(success).\n";
+                        cout<<"connect= "<<ip<<" : port = "<<port<<" finished(success).\n";
                         setBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
                         return true;
                     }
@@ -221,7 +223,7 @@ bool CClientSocket::connectToServer(const char *ip, unsigned short port , int se
     else  //连接正常
     {
         setBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
-        cout<<"connect= "<<ip<<" : port = "<<port<<"finished(success).\n";
+        cout<<"connect= "<<ip<<" : port = "<<port<<" finished(success).\n";
         return true;
     }
 }
@@ -267,7 +269,7 @@ void CClientSocket::threadRun()
     #else
                                 m_iLastError = errno;
     #endif
-                                cout<<"get lasterror:"<<m_iLastError<<endl;
+                                cout<<"get lasterror:"<<m_iLastError<<" datalen= "<<datalen<<endl;
                                 m_bConnect = false;
                                 closesocket(m_socket);
                                 m_socket = -1;
@@ -332,7 +334,7 @@ void CClientSocket::threadRun()
     cout<<"client socket runloop exit\n";
 }
 
- bool CClientSocket::sendData(char* pdata,int len)
+ bool CClientSocket::sendData(const char* pdata,int len)
  {
      if(!m_bConnect || m_socket == -1)
          return false;
