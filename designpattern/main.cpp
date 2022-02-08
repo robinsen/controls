@@ -7,6 +7,8 @@
 #include "graphicsimpl.h"
 #include "drawstuff.h"
 #include "dispatcher.h"
+#include "responsibilitychain.h"
+#include "strategy.h"
 
 using namespace std;
 using namespace DrawStuff;
@@ -57,7 +59,7 @@ void onUnKonwnMsgType(const MessagePtr& msg,
 
 int main()
 {
-    //test
+    //test swap
     {
         Graphics g1;
         Graphics g2;
@@ -72,18 +74,27 @@ int main()
         swap(test,test1);
     }
 
-    TestDispatch testDispatch;
-    MessageDispatcher dispatch(std::bind(&TestDispatch::onUnKonown, &testDispatch, std::placeholders::_1, std::placeholders::_2));
-    dispatch.registerMessageCallback<ChatMessage>(std::bind(&TestDispatch::onChat, &testDispatch, std::placeholders::_1, std::placeholders::_2));
-    dispatch.registerMessageCallback<LoginMessage>(std::bind(&TestDispatch::onLogin, &testDispatch, std::placeholders::_1, std::placeholders::_2));
-    dispatch.registerMessageCallback<ChatMessage>(onChatMsg);
-    dispatch.registerMessageCallback<LoginMessage>(onLoginMsg);
+    //消息分发
+    {
+        TestDispatch testDispatch;
+        MessageDispatcher dispatch(std::bind(&TestDispatch::onUnKonown, &testDispatch, std::placeholders::_1, std::placeholders::_2));
+        dispatch.registerMessageCallback<ChatMessage>(std::bind(&TestDispatch::onChat, &testDispatch, std::placeholders::_1, std::placeholders::_2));
+        dispatch.registerMessageCallback<LoginMessage>(std::bind(&TestDispatch::onLogin, &testDispatch, std::placeholders::_1, std::placeholders::_2));
+        dispatch.registerMessageCallback<ChatMessage>(onChatMsg);
+        dispatch.registerMessageCallback<LoginMessage>(onLoginMsg);
 
-    std::shared_ptr<ChatMessage> chat(new ChatMessage);
-    std::shared_ptr<LoginMessage> login(new LoginMessage);
-    dispatch.onProtobufMessage(chat, 11);
-    dispatch.onProtobufMessage(login, 22);
+        std::shared_ptr<ChatMessage> chat(new ChatMessage);
+        std::shared_ptr<LoginMessage> login(new LoginMessage);
+        dispatch.onProtobufMessage(chat, 11);
+        dispatch.onProtobufMessage(login, 22);
+    }
 
+    //设计模式
+    {
+        //行为模式
+        testStrategy();
+        testResponsibilityChain();
+    }
     system("pause");
 
     return 0;
