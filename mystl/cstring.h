@@ -54,7 +54,7 @@ public:
         std::cout<<" operator= "<<std::endl;
         return *this;
     }
-    //移动赋值
+    //移动赋值   右值引用
     CString& operator=(CString&& str) {
         if (this != &str)
         {

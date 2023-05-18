@@ -236,10 +236,10 @@ void* operator new(std::size_t size) { return operator new(size, (char*)_DEBUG_N
 
 void* operator new[](std::size_t size) { return operator new[](size, (char*)_DEBUG_NEW_CALLER_ADDRESS, 0); }
 
-// void operator delete(void* ptr) { 
-//     std::cout<<" delete aaa "<<std::endl;
-//     free_pointer(ptr, _DEBUG_NEW_CALLER_ADDRESS, false); 
-// }
+void operator delete(void* ptr) { 
+    std::cout<<" delete aaa "<<std::endl;
+    free_pointer(ptr, _DEBUG_NEW_CALLER_ADDRESS, false); 
+}
 
 void operator delete[](void* ptr) { 
     std::cout<<" delete [] "<<std::endl;

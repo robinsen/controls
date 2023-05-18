@@ -67,11 +67,21 @@ int main()
         swap(g1, g2);
     }
     {
-        TestTempl<Draw> test;
-        TestTempl<Draw> test1;
-        test.draw(1,2);
+        // TestTempl<Draw> test;
+        // TestTempl<Draw> test1;
+        // test.draw(1,2);
+        // using std::swap;
+        // swap(test,test1);
+        TestTempl<DrawImpl> test;
+        TestTempl<DrawImpl> test1;
+        test.setName("test");
+        test1.setName("test1");
+        test.draw(2,3);
+        test1.draw(3,4);
         using std::swap;
         swap(test,test1);
+        test.draw(2,3);
+        test1.draw(3,4);
     }
 
     //消息分发

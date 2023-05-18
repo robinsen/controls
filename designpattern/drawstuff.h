@@ -6,16 +6,22 @@ namespace DrawStuff{
 class DrawImpl {
 public:
     DrawImpl(){}
+    void setName(std::string str) {
+        m_name = str;
+    }
     void draw(const int& x, const int& y)
     {
-        std::cout<<"impl draw x="<<x<<" y="<<y<<std::endl;
+        std::cout<<"impl draw x="<<x<<" y="<<y<<" name: "<<m_name<<std::endl;
     }
+
+private:
+    std::string m_name;
 };
 
 class Draw {
 public:
     Draw()
-    :impl(new DrawImpl)
+    :impl(new DrawImpl())
     {
 
     }
@@ -55,12 +61,18 @@ public:
         return *this;
     }
 
+    void setName(std::string str)
+    {
+        t->setName(str);
+    }
+
     //这边要用TestTempl   不能用T
     void swap(TestTempl& t1)
     {
         std::cout<<" draw templ swap "<<std::endl;
         using std::swap;
-        t->swap(*t1.t);
+        swap(t, t1.t);
+        //t->swap(*t1.t);
     }
 
     void draw(const int& x, const int& y)
